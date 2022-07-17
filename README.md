@@ -1,63 +1,18 @@
-## cli-starter
+## renames
 
-A command line tool template.
+## Define 
 
-## Try it now!
+* `()` : captures the expression.
+* `*` : match zero or more characters.
+* `+` : match one or more characters.
+* `?` : match zero or one character.
+* `[a-z]`: match a character in the range.
 
-[Create repo from this template on Github](https://github.com/peterroe/cli-starter/generate)
+## example 
 
-Or:
+```js
+'hello_test.js' // => 'hello.test.js'
+// '([a-z]*)(_)test.js' '([a-z]*)(.)test.js'
 
-```bash
-$ npx degit peterroe/cli-starter my-cli
-$ cd my-cli
-$ pnpm i    # npm install -g pnpm
-```
-
-## Development
-
-```shell
-$ npx esno src/index.ts
-```
-
-## Example
-
-```shell
-$ npx esno src/index.ts -h
-$ npx esno src/index.ts -v
-$ npx esno src/index.ts lint one two
-```
-
-## Build
-
-```shell
-$ pnpm build
-```
-
-## Publish
-
-Update the `name`:
-
-```diff
-{
-- "name": "cli-starter",
-+ "name": "xxx",
-  "bin": {
--   "cli-starter": "./dist/index.mjs"
-+   "xxx": "./dist/index.mjs"
-  },
-```
-
-Publish to npm:
-
-```shell
-$ pnpm release # or npm publish directly
-```
-
-Install your own command line tool:
 
 ```
-$ npm install -g xxx
-```
-
-Then use it...

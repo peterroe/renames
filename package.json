@@ -45,5 +45,9 @@
     "hooks": {
       "pre-commit": "npm run lint"
     }
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "debug": "^4.3.4"
   }
 }
