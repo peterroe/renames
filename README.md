@@ -13,7 +13,8 @@ $ npm i -g renames
 ## Usage 
 
 ```shell
-$ renames <beforePatten> <afterPatten> --dir <dir> # --write
+$ renames <beforePatten> <afterPatten> --dir <dir> # preview
+$ renames <beforePatten> <afterPatten> --dir <dir>  --write # write to disk
 ```
 
 **example 1:**
