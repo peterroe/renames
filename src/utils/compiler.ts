@@ -7,7 +7,7 @@ const fLog = debug('compiler:fixGap') // compiler:fixGap
 const sLog = debug('compiler:synthesize') // compiler:synthesize
 
 interface MiddleType {
-  index: number
+  i: number
   str: string
 }
 
@@ -27,7 +27,7 @@ export class Compiler {
     this.syntaxArray = this.synthesize()
   }
 
-  tokenize({ i, str }: MiddleType): array {
+  tokenize({ i, str }: MiddleType): Array<Array<string> | string> {
     const tokens = []
     const len = str.length
     while (i < len) {
@@ -75,8 +75,8 @@ export class Compiler {
   }
 
   generatetokenArrayMap() {
-    const beforeTokens = this.beforeTokens
-    const afterTokens = this.afterTokens
+    const { beforeTokens, afterTokens } = this
+
     const tokenArrayMap = []
     for (let i = 0; i < beforeTokens.length; i++) {
       const beforeToken = beforeTokens[i]
@@ -122,9 +122,9 @@ export class Compiler {
 
   synthesize() {
     sLog('--- synthesize start ---')
-    const targetStr = this.targetStr
-    const beforeTokens = this.beforeTokens
-    sLog({ beforeTokens: this.beforeTokens, afterTokens: this.afterTokens })
+    const { beforeTokens, afterTokens, targetStr } = this
+
+    sLog({ beforeTokens, afterTokens })
     const regStrArr = []
     for (let i = 0; i < beforeTokens.length; i++) {
       const beforeToken = beforeTokens[i]
@@ -152,7 +152,6 @@ export class Compiler {
     pLog('--- parse start ---')
     pLog({ syntaxArray, beforeTokens, afterTokens })
     for (let i = 0; i < syntaxArray.length; i++) {
-      const itemSyntax = syntaxArray[i]
       const itemToken = afterTokens[i]
       if (Array.isArray(itemToken)) { // plain
         const mode = itemToken[0]

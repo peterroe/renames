@@ -12,15 +12,12 @@ cli.help()
 
 cli.version(pkg.version)
 
-interface optionType {
-  dir: string
-  write: boolean
-}
+interface optionType { [k: string]: any }
 
 function getParams() {
   const { args, options } = cli.parse()
   // get beforePatten and afterPatten
-  const [beforePatten, afterPatten]: Array<string> = args
+  const [beforePatten, afterPatten] = args
   // get target dir
   const { dir, write }: optionType = options
 
@@ -53,21 +50,3 @@ function main() {
 }
 
 main()
-// tests.forEach((file) => {
-//   if (file.includes('_test.js')) {
-//     const newFile = file.replace('_test.js', '.test.js')
-//     fs.renameSync(path.join(__dirname, file), path.join(__dirname, newFile))
-//   }
-// })
-
-// renames "([a-z]*)(_)test.js" to "([a-z]*)(.)test.js" --dir ./src/
-// hello_test.js => hello.test.js
-
-// renames "([a-z]*).js" "([A-Z]*).js" --dir ./src/
-// HelloWord.js => helloWord.js
-
-// renames "([A-Z]*)([A-Z]*).js" "([A-Z]*)([A-Z]*).js" --dir ./src/
-// HelloWorld.js => helloworld.js
-
-// rename "(b*)(_a).js" "(B*)(A).js" --dir ./src/
-// hello_word.js => helloWord.js
