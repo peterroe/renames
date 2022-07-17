@@ -12,25 +12,47 @@ cli.help()
 
 cli.version(pkg.version)
 
-const { args, options } = cli.parse()
+interface optionType {
+  dir: string
+  write: boolean
+}
 
-// get raw, target, dir
-const [raw, target] = args
-const { dir, write } = options
+function getParams() {
+  const { args, options } = cli.parse()
+  // get beforePatten and afterPatten
+  const [beforePatten, afterPatten]: Array<string> = args
+  // get target dir
+  const { dir, write }: optionType = options
 
-console.log(raw, target, dir, write)
+  // get all files list
+  const files: Array<string> = fs.readdirSync(dir)
 
-// get files list
-const files = fs.readdirSync(dir)
+  return {
+    beforePatten,
+    afterPatten,
+    files,
+    dir,
+    write,
+  }
+}
 
-const nameMap = rename(raw, target, files)
+function main() {
+  const {
+    beforePatten,
+    afterPatten,
+    files,
+    dir,
+    write,
+  } = getParams()
+  const nameMap = rename(beforePatten, afterPatten, files)
+  if (!write)
+    logDiff(nameMap)
 
-if (!write)
-  logDiff(nameMap)
+  else
+    renameFile(nameMap, dir)
+}
 
-else
-  renameFile(nameMap, dir)
-
+main()
 // tests.forEach((file) => {
 //   if (file.includes('_test.js')) {
 //     const newFile = file.replace('_test.js', '.test.js')

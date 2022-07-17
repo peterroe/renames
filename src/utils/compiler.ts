@@ -1,10 +1,10 @@
 import debug from 'debug'
 
-const tLog = debug('c:t') // compiler:tokenize
-const gLog = debug('c:g') // compiler:generatetokenArrayMap
-const pLog = debug('c:p') // compiler:parse
-const fLog = debug('c:f') // compiler:fixGap
-const sLog = debug('c:s') // compiler:synthesize
+const tLog = debug('compiler:tokenize') // compiler:tokenize
+const gLog = debug('compiler:generatetokenArrayMap') // compiler:generatetokenArrayMap
+const pLog = debug('compiler:parse') // compiler:parse
+const fLog = debug('compiler:fixGap') // compiler:fixGap
+const sLog = debug('compiler:synthesize') // compiler:synthesize
 
 interface MiddleType {
   index: number
@@ -23,7 +23,7 @@ export class Compiler {
     tLog({ afterTokens: this.afterTokens })
     tLog('--- after tokenize end ---')
     this.fixGap()
-    this.tokenArrayMap = this.generatetokenArrayMap()
+    // this.tokenArrayMap = this.generatetokenArrayMap()
     this.syntaxArray = this.synthesize()
   }
 
@@ -121,8 +121,10 @@ export class Compiler {
   }
 
   synthesize() {
+    sLog('--- synthesize start ---')
     const targetStr = this.targetStr
     const beforeTokens = this.beforeTokens
+    sLog({ beforeTokens: this.beforeTokens, afterTokens: this.afterTokens })
     const regStrArr = []
     for (let i = 0; i < beforeTokens.length; i++) {
       const beforeToken = beforeTokens[i]
@@ -137,11 +139,14 @@ export class Compiler {
     const reg = new RegExp(regStrArr.join(''))
     const syntaxArray = reg.exec(targetStr)?.slice(1)
     sLog({ reg, syntaxArray, targetStr })
+    sLog('--- synthesize end ---')
     return syntaxArray
   }
 
   parse() {
     const syntaxArray: Array<string> = this.syntaxArray
+    if (!syntaxArray) // no match
+      return
     const beforeTokens = this.beforeTokens
     const afterTokens: Array<string> = this.afterTokens
     pLog('--- parse start ---')
@@ -170,13 +175,13 @@ export class Compiler {
 //   new Compiler('([a-z]*)(_)test.js', '([A-Z]*)(.)test.js', 'hello_test.js'),
 // )
 
-console.log(
-  new Compiler('([a-z]*)([A-Z])([a-z]*).js', '([a-z]*)-([a-z])([a-z]*).js', 'helloWord.js').parse(),
-)
+// console.log(
+//   new Compiler('([a-z]*)([A-Z])([a-z]*).js', '([a-z]*)-([a-z])([a-z]*).js', 'helloWord.js').parse(),
+// )
 
-console.log(
-  new Compiler('([a-z]*)-([A-Z])([a-z]*).js', '([a-z]*)([a-z])([a-z]*).js', 'hello-Word.js').parse(),
-)
+// console.log(
+//   new Compiler('([a-z]*)-([A-Z])([a-z]*).js', '([a-z]*)([a-z])([a-z]*).js', 'hello-Word.js').parse(),
+// )
 
 // ([a-z]*)(_)test.js
 // [['a-z', '*'], ['_'], 'test.js']
