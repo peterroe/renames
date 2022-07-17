@@ -5,10 +5,14 @@ import { logDiff, rename, renameFile } from './utils/index'
 const cli = cac()
 
 cli.option('--dir <dir>', 'target dir', {
-  default: 'node',
+  default: './',
 })
 
+cli.option('--write', 'write to file')
+
 cli.help()
+
+cli.usage('<beforePatten> <afterPatten> --dir <dir>')
 
 cli.version(pkg.version)
 
@@ -20,6 +24,8 @@ function getParams() {
   const [beforePatten, afterPatten] = args
   // get target dir
   const { dir, write }: optionType = options
+  if (!dir || !beforePatten || !afterPatten)
+    process.exit(1)
 
   // get all files list
   const files: Array<string> = fs.readdirSync(dir)
