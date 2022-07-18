@@ -13,7 +13,7 @@ $ npm i -g renames
 ## Usage 
 
 ```shell
-$ renames <beforePatten> <afterPatten> --dir <dir> # preview
+$ renames <beforePatten> <afterPatten> --dir <dir>          # preview
 $ renames <beforePatten> <afterPatten> --dir <dir>  --write # write to disk
 ```
 
@@ -45,18 +45,18 @@ renames "([A-Z])([a-z]*)([A-Z])([a-z]*).tsx" "([a-z])([a-z]*)-([a-z])([a-z]*).ts
 **example 2:**
 
 ```shell
-├─ src
+├─ tests
 │  ├─ sort_test.js
 │  ├─ match_test.js
 │  ├─ index_test.js
 ```
 
 ```shell
-renames "([a-z]*)_([a-z]*).js" "([a-z]*).([a-z]*).ts" --dir ./src --write
+renames "([a-z]*)_([a-z]*).js" "([a-z]*).([a-z]*).ts" --dir ./tests --write
 ```
 
 ```shell
-├─ src
+├─ tests
 │  ├─ sort.test.ts
 │  ├─ match.test.ts
 │  ├─ index.test.ts
