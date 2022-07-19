@@ -158,8 +158,11 @@ export class Compiler {
         if (/[A-Z]-[A-Z]/.test(mode))
           syntaxArray[i] = syntaxArray[i].toUpperCase()
 
-        else
+        else if (/[a-z]-[a-z]/.test(mode))
           syntaxArray[i] = syntaxArray[i].toLowerCase()
+
+        else if (!mode)
+          syntaxArray[i] = ''
       }
       else { // expression
         syntaxArray[i] = itemToken
@@ -181,6 +184,10 @@ export class Compiler {
 // console.log(
 //   new Compiler('([a-z]*)-([A-Z])([a-z]*).js', '([a-z]*)([a-z])([a-z]*).js', 'hello-Word.js').parse(),
 // )
+
+console.log(
+  new Compiler('([a-z]?)([A-Z])([a-z]*).js', '()([A-Z])([a-z]*).js', 'cHelloword.js').parse(),
+)
 
 // ([a-z]*)(_)test.js
 // [['a-z', '*'], ['_'], 'test.js']

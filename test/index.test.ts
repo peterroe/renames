@@ -22,5 +22,13 @@ describe('Test', () => {
       new Compiler('([a-z]*)([A-Z])([a-z]*).js', '([a-z]*)-([a-z])([a-z]*).js', 'helloWord.js')
         .parse(),
     ).toMatchInlineSnapshot('"hello-word.js"')
+    expect(
+      new Compiler('([a-z]?)([A-Z])([a-z]*).js', '()([A-Z])([a-z]*).js', 'cHelloword.js')
+        .parse(),
+    ).toMatchInlineSnapshot('"Helloword.js"')
+    expect(
+      new Compiler('([a-z]?)([A-Z])([a-z]*).js', '()([A-Z])([a-z]*).js', 'Helloword.js')
+        .parse(),
+    ).toMatchInlineSnapshot('"Helloword.js"')
   })
 })

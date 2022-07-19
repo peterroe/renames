@@ -70,7 +70,35 @@ renames "([a-z]*)_([a-z]*).js" "([a-z]*).([a-z]*).ts" --dir ./tests --write
 | `[a-z]` | match a lowercase letter |
 | `[A-Z]` | match an uppercase letter |
 | `*` | match any number of characters |
+| `?` | match any single character |
 
-## More 
+## Notice
 
-developing... 
+In the `<beforePatten>` and  `<afterPatten>`, the number of `()` must be equal.
+
+Such as if you want:
+
+```shell 
+├─ src
+│  ├─ sLog.ts
+│  ├─ qWitch.ts
+│  ├─ Index.ts
+│  ├─ App.ts
+```
+
+Transform to:
+
+```shell
+├─ src
+│  ├─ Log.ts
+│  ├─ Witch.ts
+│  ├─ Index.ts
+│  ├─ App.ts
+```
+
+You should run:
+
+```diff
+- renames '([a-z]?)([A-Z])([a-z]*).js' '([A-Z])([a-z]*).js --dir ./src --write    // ❌
++ renames '([a-z]?)([A-Z])([a-z]*).js' '()([A-Z])([a-z]*).js' --dir ./src --write // ✅
+```
