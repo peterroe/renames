@@ -70,7 +70,8 @@ renames "([a-z]*)_([a-z]*).js" "([a-z]*).([a-z]*).ts" --dir ./tests --write
 | `[a-z]` | match a lowercase letter |
 | `[A-Z]` | match an uppercase letter |
 | `*` | match any number of characters |
-| `?` | match any single character |
+| `?` | match zero or one character |
+| `+` | match one or more characters |
 
 ## Notice
 
