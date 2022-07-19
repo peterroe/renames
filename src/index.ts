@@ -17,8 +17,15 @@ cli.usage('<beforePatten> <afterPatten> --dir <dir>')
 cli.version(pkg.version)
 
 interface optionType { [k: string]: any }
+interface paramsType {
+  beforePatten: string
+  afterPatten: string
+  files: Array<string>
+  dir: string
+  write: boolean
+}
 
-function getParams() {
+function getParams(): paramsType {
   const { args, options } = cli.parse()
   // get beforePatten and afterPatten
   const [beforePatten, afterPatten] = args as [string, string]
@@ -46,7 +53,7 @@ function main() {
     files,
     dir,
     write,
-  } = getParams()
+  }: paramsType = getParams()
   const nameMap: Array<[string, string]> = rename(beforePatten, afterPatten, files)
   if (!write as boolean)
     logDiff(nameMap)

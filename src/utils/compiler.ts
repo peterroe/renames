@@ -1,7 +1,6 @@
 import debug from 'debug'
 
 const tLog = debug('compiler:tokenize') // compiler:tokenize
-const gLog = debug('compiler:generatetokenArrayMap') // compiler:generatetokenArrayMap
 const pLog = debug('compiler:parse') // compiler:parse
 const fLog = debug('compiler:fixGap') // compiler:fixGap
 const sLog = debug('compiler:synthesize') // compiler:synthesize
@@ -23,7 +22,6 @@ export class Compiler {
     tLog({ afterTokens: this.afterTokens })
     tLog('--- after tokenize end ---')
     this.fixGap()
-    // this.tokenArrayMap = this.generatetokenArrayMap()
     this.syntaxArray = this.synthesize()
   }
 
@@ -72,30 +70,6 @@ export class Compiler {
       }
     }
     return tokens
-  }
-
-  generatetokenArrayMap(): Array {
-    const { beforeTokens, afterTokens } = this
-
-    const tokenArrayMap = []
-    for (let i = 0; i < beforeTokens.length; i++) {
-      const beforeToken: string | Array<string> = beforeTokens[i]
-      const afterToken: string | Array<string> = afterTokens[i]
-      gLog({ i, beforeToken, afterToken })
-      if (Array.isArray(beforeToken)) {
-        const map = []
-        for (let j = 0; j < beforeToken.length; j++) {
-          const b: string = beforeToken[j]
-          const a: string = afterToken[j]
-          map.push([b, a])
-        }
-        tokenArrayMap.push(map)
-      }
-      else { // string
-        tokenArrayMap.push(new Map([[beforeToken, afterToken]]))
-      }
-    }
-    return tokenArrayMap
   }
 
   /**
