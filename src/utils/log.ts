@@ -6,7 +6,7 @@ import chalk from 'chalk'
  */
 export function logDiff(nameMap: Array<[string, string]>) {
   // get max length of before name
-  const maxNameLen = nameMap.reduce((pre, cur) => {
+  const maxNameLen: number = nameMap.reduce((pre, cur) => {
     return Math.max(pre, cur[0].length)
   }, 0)
 

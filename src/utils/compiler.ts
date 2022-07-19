@@ -40,7 +40,7 @@ export class Compiler {
         tokens.push(t)
         i = nextI + 1
       }
-      else if (/^\[\w-\w\]/.test(str.slice(i))) { // [a-z]
+      else if (/^\[\w-\w\]/.test(str.slice(i))) { // [a-z] [A-Z]
         const t = /^\[(\w-\w)\]/.exec(str)[1]
         tokens.push(t)
         i += 5
@@ -74,19 +74,19 @@ export class Compiler {
     return tokens
   }
 
-  generatetokenArrayMap() {
+  generatetokenArrayMap(): Array {
     const { beforeTokens, afterTokens } = this
 
     const tokenArrayMap = []
     for (let i = 0; i < beforeTokens.length; i++) {
-      const beforeToken = beforeTokens[i]
-      const afterToken = afterTokens[i]
+      const beforeToken: string | Array<string> = beforeTokens[i]
+      const afterToken: string | Array<string> = afterTokens[i]
       gLog({ i, beforeToken, afterToken })
       if (Array.isArray(beforeToken)) {
         const map = []
         for (let j = 0; j < beforeToken.length; j++) {
-          const b = beforeToken[j]
-          const a = afterToken[j]
+          const b: string = beforeToken[j]
+          const a: string = afterToken[j]
           map.push([b, a])
         }
         tokenArrayMap.push(map)
@@ -98,6 +98,9 @@ export class Compiler {
     return tokenArrayMap
   }
 
+  /**
+   * @description: Keep the same type of beforeToken[i] and afterToken[i]
+   */
   fixGap() {
     fLog('--- fixGap start ---')
     const { beforeTokens, afterTokens } = this
@@ -120,7 +123,10 @@ export class Compiler {
     fLog('--- fixGap end ---')
   }
 
-  synthesize() {
+  /**
+   * @description: syntax parse from beforeTokens
+   */
+  synthesize(): Array<string> {
     sLog('--- synthesize start ---')
     const { beforeTokens, afterTokens, targetStr } = this
 
@@ -143,34 +149,39 @@ export class Compiler {
     return syntaxArray
   }
 
-  parse() {
+  /**
+   * @description: syntax parse from afterTokens
+   */
+  parse(): string {
     const syntaxArray: Array<string> = this.syntaxArray
     if (!syntaxArray) // no match
       return
-    const beforeTokens = this.beforeTokens
+    const beforeTokens: Array<string> = this.beforeTokens
     const afterTokens: Array<string> = this.afterTokens
     pLog('--- parse start ---')
     pLog({ syntaxArray, beforeTokens, afterTokens })
+    const afterSyntaxArray = new Array(syntaxArray.length)
     for (let i = 0; i < syntaxArray.length; i++) {
       const itemToken = afterTokens[i]
       if (Array.isArray(itemToken)) { // plain
-        const mode = itemToken[0]
+        const mode = itemToken[0] as string | undefined
         if (/[A-Z]-[A-Z]/.test(mode))
-          syntaxArray[i] = syntaxArray[i].toUpperCase()
+          afterSyntaxArray[i] = syntaxArray[i].toUpperCase()
 
         else if (/[a-z]-[a-z]/.test(mode))
-          syntaxArray[i] = syntaxArray[i].toLowerCase()
+          afterSyntaxArray[i] = syntaxArray[i].toLowerCase()
 
         else if (!mode)
-          syntaxArray[i] = ''
+          afterSyntaxArray[i] = ''
       }
       else { // expression
-        syntaxArray[i] = itemToken
+        afterSyntaxArray[i] = itemToken
       }
     }
-    pLog({ syntaxArray })
+    this.afterSyntaxArray = afterSyntaxArray
+    pLog({ afterSyntaxArray })
     pLog('--- parse end ---')
-    return syntaxArray.join('')
+    return afterSyntaxArray.join('')
   }
 }
 // console.log(

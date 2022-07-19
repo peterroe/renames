@@ -21,7 +21,7 @@ interface optionType { [k: string]: any }
 function getParams() {
   const { args, options } = cli.parse()
   // get beforePatten and afterPatten
-  const [beforePatten, afterPatten] = args
+  const [beforePatten, afterPatten] = args as [string, string]
   // get target dir
   const { dir, write }: optionType = options
   if (!dir || !beforePatten || !afterPatten)
@@ -47,8 +47,8 @@ function main() {
     dir,
     write,
   } = getParams()
-  const nameMap = rename(beforePatten, afterPatten, files)
-  if (!write)
+  const nameMap: Array<[string, string]> = rename(beforePatten, afterPatten, files)
+  if (!write as boolean)
     logDiff(nameMap)
 
   else

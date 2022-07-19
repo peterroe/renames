@@ -6,7 +6,7 @@ import path from 'path'
  * @param {*} nameMap
  * @param {*} dir
  */
-export function renameFile(nameMap, dir) {
+export function renameFile(nameMap: Array<[string, string]>, dir: string) {
   nameMap.forEach(([oldFileName, newFileName]) => {
     fs.renameSync(path.join(dir, oldFileName), path.join(dir, newFileName))
   })
