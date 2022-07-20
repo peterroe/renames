@@ -39,9 +39,14 @@ export class Compiler {
         i = nextI + 1
       }
       else if (/^\[\w-\w\]/.test(str.slice(i))) { // [a-z] [A-Z]
-        const t = /^\[(\w-\w)\]/.exec(str)[1]
+        const t = /^\[(\w-\w)\]/.exec(str.slice(i))[1]
         tokens.push(t)
         i += 5
+      }
+      else if (/^\[.+\]/.test(str.slice(i))) { // [a|b|c]
+        const t = /^\[(.+)\]/.exec(str.slice(i))[1]
+        tokens.push(t)
+        i += t.length + 2
       }
       // else if (str[i] === '.') {
       //   tokens.push('.')
@@ -170,9 +175,10 @@ export class Compiler {
 //   new Compiler('([a-z]*)-([A-Z])([a-z]*).js', '([a-z]*)([a-z])([a-z]*).js', 'hello-Word.js').parse(),
 // )
 
-console.log(
-  new Compiler('([a-z]?)([A-Z])([a-z]*).js', '()([A-Z])([a-z]*).js', 'cHelloword.js').parse(),
-)
+// console.log(
+//   new Compiler('([wI])([A-Z])([a-z]*).js', '()([A-Z])([a-z]*).js', 'wHelloword.js')
+//     .parse(),
+// )
 
 // ([a-z]*)(_)test.js
 // [['a-z', '*'], ['_'], 'test.js']

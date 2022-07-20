@@ -62,6 +62,26 @@ renames "([a-z]*)_([a-z]*).js" "([a-z]*).([a-z]*).ts" --dir ./tests --write
 │  ├─ index.test.ts
 ```
 
+**example 3:**
+
+```shell
+├─ src
+│  ├─ qBar.js
+│  ├─ BFoo.js
+│  ├─ zBaz.js
+```
+
+```shell
+'([qB]+)([A-Z])([a-z]*).js' '()([A-Z])([a-z]*).js' --dir src --write
+```
+
+```shell
+├─ src
+│  ├─ ar.js
+│  ├─ Foo.js
+│  ├─ zBaz.js
+```
+
 ## Base patten rule
 
 | patten | description |
