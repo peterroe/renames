@@ -1,6 +1,6 @@
 {
   "name": "renames",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "packageManager": "pnpm@7.5.0",
   "description": "cli-renames",
   "keywords": [
